@@ -1,0 +1,32 @@
+-- Install wordpres with apache on centos
+Langkah install :
+1. update repo
+   - yum update
+2. install apache
+   - yum install httpd -y
+   - systemctl start httpd.service
+   - systemctl enable httpd.service
+3. install mariadb
+   - yum install mariadb-server mariadb -y
+   - systemctl start mariadb
+   - systemctl enable mariadb.service
+   -> setting user and db mariadb
+      - mysql_secure_installation
+        mysql> CREATE DATABASE `mydb`;
+        mysql> CREATE USER 'myuser' IDENTIFIED BY 'mypassword';
+        mysql> GRANT USAGE ON *.* TO 'myuser'@localhost IDENTIFIED BY 'mypassword';
+        mysql> GRANT USAGE ON *.* TO 'myuser'@'%' IDENTIFIED BY 'mypassword';
+        mysql> GRANT ALL privileges ON `mydb`.* TO 'myuser'@localhost;
+        mysql> FLUSH PRIVILEGES;
+4. install php
+   - yum install php php-gd php-zip php-fpm -y
+5. Set phpmyadmin
+   - wget https://files.phpmyadmin.net/phpMyAdmin/4.9.4/phpMyAdmin-4.9.4-all-languages.zip
+   - unzip phpMyAdmin-4.9.4-all-languages.zip
+    -> pindahkan folder phpmyadmin ke var/www/html/
+       -setting php.ini
+        -> etc -> file php.ini -> rubah upload_max_filesize dan post_max_size
+6. beri akses tiap folder yang ada di var/www/html -> klik kanan di winscp pilih properties -> rubah akses sesuai kebutuhan
+7. setting HTTPD etc/httpd/conf
+   -> httpd.conf rubah AllowOverride none menjadi AllowOverride All
+      
